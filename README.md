@@ -1,6 +1,6 @@
-# donlalicon.dev
+# donlalicon.dev blog editor
 
-My blog
+My blog editor
 
 ## Build Setup
 
