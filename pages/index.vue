@@ -1,43 +1,20 @@
 <template>
-  <div>
-    <teaser v-for="teaser of teasers" :key="teaser.id" :teaser="teaser" class="mb-10" />
-  </div>
+  <blog-form v-model="blog" />
 </template>
 
 <script>
-import Teaser from '~/components/Teaser'
+import BlogForm from '~/components/BlogForm'
 
 export default {
-  components: {
-    Teaser
-  },
+  name: 'NewPage',
+  components: { BlogForm },
   data () {
     return {
-      teasers: []
+      blog: {}
     }
-  },
-  async asyncData ({ app }) {
-    const teasers = []
-    const db = app.$firebase.firestore()
-
-    const querySnapshot = await db.collection('teasers')
-      .where('published', '==', true)
-      .orderBy('created', 'desc')
-      .get()
-
-    if (querySnapshot.size > 0) {
-      for (const doc of querySnapshot.docs) {
-        teasers.push({
-          id: doc.id,
-          ...doc.data()
-        })
-      }
-    }
-
-    return { teasers }
   }
 }
 </script>
 
-<style>
+<style scoped>
 </style>
