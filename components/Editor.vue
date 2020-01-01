@@ -224,6 +224,7 @@ export default {
     value: {
       handler (newValue) {
         this.html = newValue
+        this.editor.setContent(this.html)
       }
     }
   },
@@ -253,10 +254,6 @@ export default {
         this.html = getHTML()
         this.$emit('input', this.html)
       }
-    })
-
-    this.$nextTick(() => {
-      this.editor.setContent(this.html)
     })
   },
   beforeDestroy () {

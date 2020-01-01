@@ -1,5 +1,5 @@
 <template>
-  <blog-form v-if="blog" v-model="blog" />
+  <blog-form v-model="blog" />
 </template>
 
 <script>
@@ -11,7 +11,7 @@ export default {
   components: { BlogForm },
   data () {
     return {
-      blog: null,
+      blog: {},
       id: ''
     }
   },

@@ -72,8 +72,13 @@ export default {
       status: ''
     }
   },
-  mounted () {
-    this.blog = cloneDeep(this.value)
+  watch: {
+    value: {
+      handler (newValue) {
+        this.blog = cloneDeep(newValue)
+      },
+      immediate: true
+    }
   },
   methods: {
     submitForm () {
@@ -119,40 +124,20 @@ export default {
 
 <style scoped>
 label {
-  @apply
-    block
-    text-gray-600
-    text-sm
-    font-bold
-    mb-2;
+  @apply block text-gray-600 text-sm font-bold mb-2;
 }
+
 textarea,
 input[type="text"] {
-  @apply
-    shadow
-    appearance-none
-    border
-    rounded
-    w-full
-    py-2
-    px-3
-    leading-tight;
+  @apply shadow appearance-none border rounded w-full py-2 px-3 leading-tight;
 }
+
 textarea:focus,
 input[type="text"]:focus {
-  @apply
-    outline-none
-    border-blue-500;
+  @apply outline-none border-blue-500;
 }
+
 button {
-  @apply
-    text-gray-600
-    font-bold
-    py-2
-    px-4
-    rounded
-    border-gray-500
-    border
-    shadow;
+  @apply text-gray-600 font-bold py-2 px-4 rounded border-gray-500 border shadow;
 }
 </style>
