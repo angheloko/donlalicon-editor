@@ -6,7 +6,8 @@
 import BlogForm from '~/components/BlogForm'
 
 export default {
-  name: 'NewPage',
+  name: 'BlogCreatePage',
+  middleware: 'authenticated-access',
   components: { BlogForm },
   data () {
     return {

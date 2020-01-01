@@ -3,27 +3,41 @@
     <table class="w-full">
       <thead>
         <tr>
-          <th class="border px-4 py-2">
+          <th>
+            ID
+          </th>
+          <th>
             Title
           </th>
-          <th class="border px-4 py-2">
+          <th>
+            Status
+          </th>
+          <th>
             Created
           </th>
-          <th class="border px-4 py-2">
-            &nbsp;
+          <th>
+            Changed
           </th>
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td class="border px-4 py-2">
-            Intro to CSS
+        <tr v-for="blog of blogs" :key="blog.id">
+          <td>
+            <nuxt-link :to="{ name: 'blog-id', params: { 'id': blog.id }}">
+              {{ blog.id }}
+            </nuxt-link>
           </td>
-          <td class="border px-4 py-2">
-            25 Dec 2019
+          <td>
+            {{ blog.title }}
           </td>
-          <td class="border px-4 py-2">
-            Edit
+          <td>
+            {{ blog.published ? 'Published' : '' }}
+          </td>
+          <td>
+            {{ blog.created | toDate }}
+          </td>
+          <td>
+            {{ blog.changed | toDate }}
           </td>
         </tr>
       </tbody>
@@ -37,11 +51,25 @@ export default {
   middleware: 'authenticated-access',
   data () {
     return {
-      blog: {}
+      blogs: []
     }
+  },
+  async mounted () {
+    const db = this.$firebase.firestore()
+    const querySnapshot = await db.collection('blogs').get()
+    querySnapshot.forEach((doc) => {
+      this.blogs.push({
+        id: doc.id,
+        ...doc.data()
+      })
+    })
   }
 }
 </script>
 
 <style scoped>
+thead > tr > th,
+tbody > tr > td {
+  @apply border px-4 py-2 text-left;
+}
 </style>

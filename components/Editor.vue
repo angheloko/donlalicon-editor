@@ -221,8 +221,10 @@ export default {
     }
   },
   watch: {
-    value (newValue) {
-      this.html = newValue
+    value: {
+      handler (newValue) {
+        this.html = newValue
+      }
     }
   },
   mounted () {
@@ -247,11 +249,14 @@ export default {
         new History(),
         new Image()
       ],
-      content: this.html,
       onUpdate: ({ getHTML }) => {
         this.html = getHTML()
         this.$emit('input', this.html)
       }
+    })
+
+    this.$nextTick(() => {
+      this.editor.setContent(this.html)
     })
   },
   beforeDestroy () {

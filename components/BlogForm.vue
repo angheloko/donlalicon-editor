@@ -41,8 +41,12 @@
         <textarea id="imageCaption" v-model="blog.imageCaption" placeholder="Image caption" />
       </div>
       <div class="mb-4">
-        <button @click="updateValue" type="button">
-          Save
+        <button
+          :disabled="!!status"
+          @click="submitForm"
+          type="button"
+        >
+          {{ status ? status : 'Save' }}
         </button>
       </div>
     </div>
@@ -64,20 +68,50 @@ export default {
   },
   data () {
     return {
-      blog: {}
+      blog: {},
+      status: ''
     }
   },
   mounted () {
     this.blog = cloneDeep(this.value)
   },
   methods: {
-    updateValue () {
+    submitForm () {
+      // Validate the form.
+      // @todo Check that the ID is unique.
       if (!this.blog.id) {
         alert('Please specify the blog ID.')
         this.$refs.id.focus()
       } else {
-        this.$emit('input', cloneDeep(this.blog))
+        this.updateValue()
       }
+    },
+    async updateValue () {
+      this.status = 'Saving...'
+
+      const db = this.$firebase.firestore()
+      const blog = cloneDeep(this.blog)
+
+      const id = blog.id
+      delete blog.id
+
+      if (!blog.created) {
+        blog.created = this.$firebase.firestore.FieldValue.serverTimestamp()
+      }
+
+      try {
+        await db.collection('blogs').doc(id).set({
+          ...blog,
+          changed: this.$firebase.firestore.FieldValue.serverTimestamp()
+        })
+      } catch (error) {
+        alert('Unable to save blog')
+      }
+
+      blog.id = id
+      this.$emit('input', cloneDeep(blog))
+
+      this.status = ''
     }
   }
 }
@@ -112,18 +146,13 @@ input[type="text"]:focus {
 }
 button {
   @apply
-    shadow
-    bg-blue-500
-    text-white
+    text-gray-600
     font-bold
     py-2
     px-4
-    rounded;
-}
-button:hover {
-  @apply bg-blue-400;
-}
-button:focus {
-  @apply outline-none;
+    rounded
+    border-gray-500
+    border
+    shadow;
 }
 </style>
