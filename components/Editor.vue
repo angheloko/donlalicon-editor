@@ -149,10 +149,13 @@
 </template>
 
 <script>
+import javascript from 'highlight.js/lib/languages/javascript'
+import css from 'highlight.js/lib/languages/css'
 import { Editor, EditorContent, EditorMenuBar } from 'tiptap'
 import {
   Blockquote,
   CodeBlock,
+  CodeBlockHighlight,
   HardBreak,
   Heading,
   HorizontalRule,
@@ -224,7 +227,6 @@ export default {
     value: {
       handler (newValue) {
         this.html = newValue
-        this.editor.setContent(this.html)
       }
     }
   },
@@ -234,6 +236,12 @@ export default {
         new Blockquote(),
         new BulletList(),
         new CodeBlock(),
+        new CodeBlockHighlight({
+          languages: {
+            javascript,
+            css
+          }
+        }),
         new HardBreak(),
         new Heading({ levels: [2, 3] }),
         new HorizontalRule(),
@@ -254,6 +262,10 @@ export default {
         this.html = getHTML()
         this.$emit('input', this.html)
       }
+    })
+
+    this.$nextTick(() => {
+      this.editor.setContent(this.value)
     })
   },
   beforeDestroy () {
@@ -305,21 +317,15 @@ export default {
 }
 
 .menubar__button.is-disabled {
-  @apply
-    opacity-50
-    cursor-not-allowed;
+  @apply opacity-50 cursor-not-allowed;
 }
 
 .menubar__button.is-disabled:hover {
-  @apply
-    bg-gray-300
-    opacity-50;
+  @apply bg-gray-300 opacity-50;
 }
 
 .menubar__icon {
-  @apply
-    w-6
-    h-6;
+  @apply w-6 h-6;
 }
 
 .menubar__group {
@@ -335,24 +341,14 @@ export default {
 }
 
 .menubar__group .menubar__button:last-child {
-  @apply
-    rounded-r
-    mr-2;
+  @apply rounded-r mr-2;
 }
+
 textarea {
-  @apply
-    shadow
-    appearance-none
-    border
-    rounded
-    w-full
-    py-2
-    px-3
-    leading-tight;
+  @apply shadow appearance-none border rounded w-full py-2 px-3 leading-tight;
 }
+
 textarea:focus {
-  @apply
-    outline-none
-    border-blue-500;
+  @apply outline-none border-blue-500;
 }
 </style>
