@@ -22,9 +22,12 @@ export default {
   /*
   ** Global CSS
   */
-  css: [
-    '~/assets/css/base.css'
-  ],
+  css: [],
+  purgeCSS: {
+    whitelist: ['hljs'],
+    whitelistPatterns: [/hljs-.+$/],
+    whitelistPatternsChildren: [/hljs-.+$/]
+  },
   /*
   ** Plugins to load before mounting the App
   */

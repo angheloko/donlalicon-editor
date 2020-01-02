@@ -1,5 +1,5 @@
 <template>
-  <div class="max-w-2xl mr-5">
+  <div class="max-w-2xl mx-auto">
     <article class="blog">
       <div class="mb-5">
         <div

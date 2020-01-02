@@ -4,3 +4,6 @@
 @import 'tailwindcss/components';
 /*noinspection CssUnknownTarget*/
 @import 'tailwindcss/utilities';
+
+@import 'highlight.js/styles/solarized-dark';
+@import './styles';
