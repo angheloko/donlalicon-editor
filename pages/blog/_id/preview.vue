@@ -2,7 +2,9 @@
   <div class="max-w-2xl mr-5">
     <article class="blog">
       <div class="mb-5">
-        <div class="text-xs uppercase font-semibold text-gray-600 mb-1 flex">
+        <div
+          v-if="blog.tags.length"
+          class="text-xs uppercase font-semibold text-gray-600 mb-1 flex">
           <div v-for="tag of blog.tags" :key="tag" class="mx-2 first:ml-0">
             {{ tag }}
           </div>
@@ -34,7 +36,9 @@ export default {
   middleware: 'authenticated-access',
   data () {
     return {
-      blog: {},
+      blog: {
+        tags: []
+      },
       id: ''
     }
   },

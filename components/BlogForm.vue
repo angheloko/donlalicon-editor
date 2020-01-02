@@ -33,6 +33,10 @@
         <input id="imageUrl" v-model="blog.imageUrl" type="text" placeholder="Image URL">
       </div>
       <div class="mb-4">
+        <label for="teaserImageUrl">Teaser image URL</label>
+        <input id="teaserImageUrl" v-model="blog.teaserImageUrl" type="text" placeholder="Teaser image URL">
+      </div>
+      <div class="mb-4">
         <label for="imageAlt">Image Alt</label>
         <input id="imageAlt" v-model="blog.imageAlt" type="text" placeholder="Image Alt">
       </div>
@@ -42,7 +46,7 @@
       </div>
       <div class="mb-4">
         <label for="tags">Tags</label>
-        <input id="tags" v-model="blog.tags" type="text" placeholder="Tags">
+        <input id="tags" v-model="tags" type="text" placeholder="Tags">
       </div>
       <div class="mb-4">
         <button
@@ -73,16 +77,15 @@ export default {
   data () {
     return {
       blog: {},
+      tags: '',
       status: ''
     }
   },
   watch: {
     value: {
       handler (newValue) {
-        this.blog = {
-          tags: [],
-          ...cloneDeep(newValue)
-        }
+        this.blog = cloneDeep(newValue)
+        this.tags = this.blog.tags ? this.blog.tags.join(' ') : ''
       },
       immediate: true
     }
@@ -101,6 +104,7 @@ export default {
     async updateValue () {
       this.status = 'Saving...'
 
+      const serverTimestamp = this.$firebase.firestore.FieldValue.serverTimestamp()
       const db = this.$firebase.firestore()
       const blog = cloneDeep(this.blog)
 
@@ -108,17 +112,31 @@ export default {
       delete blog.id
 
       if (!blog.created) {
-        blog.created = this.$firebase.firestore.FieldValue.serverTimestamp()
+        blog.created = serverTimestamp
       }
 
-      blog.tags = blog.tags ? blog.tags.split(',').map(item => item.trim()) : []
+      blog.changed = serverTimestamp
+
+      blog.tags = this.tags.trim() !== '' ? this.tags.split(' ').map(item => item.trim()) : []
+
       try {
-        await db.collection('blogs').doc(id).set({
-          ...blog,
-          changed: this.$firebase.firestore.FieldValue.serverTimestamp()
-        })
+        const promise1 = db.collection('blogs').doc(id).set(blog)
+
+        const teaser = cloneDeep(blog)
+
+        teaser.body = blog.teaser
+        teaser.imageUrl = blog.teaserImageUrl
+
+        delete teaser.teaser
+        delete teaser.teaserImageUrl
+        delete teaser.imageCaption
+
+        const promise2 = db.collection('teasers').doc(id).set(teaser)
+
+        await Promise.all([promise1, promise2])
       } catch (error) {
-        alert('Unable to save blog')
+        alert('Error saving blog or teaser')
+        console.error(error)
       }
 
       blog.id = id
