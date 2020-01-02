@@ -85,7 +85,7 @@ export default {
     value: {
       handler (newValue) {
         this.blog = cloneDeep(newValue)
-        this.tags = this.blog.tags ? this.blog.tags.join(' ') : ''
+        this.tags = this.blog.tags ? this.blog.tags.join() : ''
       },
       immediate: true
     }
@@ -117,15 +117,15 @@ export default {
 
       blog.changed = serverTimestamp
 
-      blog.tags = this.tags.trim() !== '' ? this.tags.split(' ').map(item => item.trim()) : []
+      blog.tags = this.tags.trim() !== '' ? this.tags.split(',').map(item => item.trim()) : []
 
       try {
         const promise1 = db.collection('blogs').doc(id).set(blog)
 
         const teaser = cloneDeep(blog)
 
-        teaser.body = blog.teaser
-        teaser.imageUrl = blog.teaserImageUrl
+        teaser.body = blog.teaser || null
+        teaser.imageUrl = blog.teaserImageUrl || null
 
         delete teaser.teaser
         delete teaser.teaserImageUrl
