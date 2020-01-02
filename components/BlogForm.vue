@@ -41,6 +41,10 @@
         <textarea id="imageCaption" v-model="blog.imageCaption" placeholder="Image caption" />
       </div>
       <div class="mb-4">
+        <label for="tags">Tags</label>
+        <input id="tags" v-model="blog.tags" type="text" placeholder="Tags">
+      </div>
+      <div class="mb-4">
         <button
           :disabled="!!status"
           @click="submitForm"
@@ -75,7 +79,10 @@ export default {
   watch: {
     value: {
       handler (newValue) {
-        this.blog = cloneDeep(newValue)
+        this.blog = {
+          tags: [],
+          ...cloneDeep(newValue)
+        }
       },
       immediate: true
     }
@@ -104,6 +111,7 @@ export default {
         blog.created = this.$firebase.firestore.FieldValue.serverTimestamp()
       }
 
+      blog.tags = blog.tags ? blog.tags.split(',').map(item => item.trim()) : []
       try {
         await db.collection('blogs').doc(id).set({
           ...blog,

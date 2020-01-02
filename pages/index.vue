@@ -56,7 +56,9 @@ export default {
   },
   async mounted () {
     const db = this.$firebase.firestore()
-    const querySnapshot = await db.collection('blogs').get()
+    const querySnapshot = await db.collection('blogs')
+      .orderBy('created', 'desc')
+      .get()
     querySnapshot.forEach((doc) => {
       this.blogs.push({
         id: doc.id,
