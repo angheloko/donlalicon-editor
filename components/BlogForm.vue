@@ -134,7 +134,8 @@ export default {
           imageUrl: blog.teaserImageUrl || null,
           imageAlt: blog.imageAlt || '',
           created: blog.created,
-          changed: blog.changed
+          changed: blog.changed,
+          published: blog.published
         }
 
         const promise2 = db.collection('teasers').doc(id).set(teaser)
