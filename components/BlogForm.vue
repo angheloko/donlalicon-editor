@@ -136,7 +136,6 @@ export default {
         await Promise.all([promise1, promise2])
       } catch (error) {
         alert('Error saving blog or teaser')
-        console.error(error)
       }
 
       blog.id = id

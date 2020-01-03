@@ -223,14 +223,9 @@ export default {
       viewRaw: false
     }
   },
-  watch: {
-    value: {
-      handler (newValue) {
-        this.html = newValue
-      }
-    }
-  },
   mounted () {
+    this.html = this.value
+
     this.editor = new Editor({
       extensions: [
         new Blockquote(),
@@ -258,14 +253,11 @@ export default {
         new History(),
         new Image()
       ],
+      content: this.html,
       onUpdate: ({ getHTML }) => {
         this.html = getHTML()
         this.$emit('input', this.html)
       }
-    })
-
-    this.$nextTick(() => {
-      this.editor.setContent(this.value)
     })
   },
   beforeDestroy () {

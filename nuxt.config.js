@@ -22,7 +22,10 @@ export default {
   /*
   ** Global CSS
   */
-  css: [],
+  css: [
+    '~/assets/css/styles.css',
+    '~/assets/css/editor.css'
+  ],
   purgeCSS: {
     whitelist: ['hljs'],
     whitelistPatterns: [/hljs-.+$/],

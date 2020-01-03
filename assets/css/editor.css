@@ -1,0 +1,14 @@
+.editor {
+  max-height: calc(100vh - 70px);
+  height: calc(100vh - 70px);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+.editor__content {
+  flex: 1 0 auto;
+  height: calc(100% - 120px);
+  max-height: calc(100% - 120px);
+  overflow-y: auto;
+  padding-bottom: 20px;
+}

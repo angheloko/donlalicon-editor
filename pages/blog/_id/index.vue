@@ -1,5 +1,5 @@
 <template>
-  <blog-form v-model="blog" />
+  <blog-form v-if="isLoaded" v-model="blog" />
 </template>
 
 <script>
@@ -12,7 +12,8 @@ export default {
   data () {
     return {
       blog: {},
-      id: ''
+      id: '',
+      isLoaded: false
     }
   },
   validate ({ params }) {
@@ -38,6 +39,8 @@ export default {
         id: documentSnapshot.id,
         ...documentSnapshot.data()
       }
+
+      this.isLoaded = true
     } catch (e) {
       this.$nuxt.error({ statusCode: 404, message: 'Blog not found' })
     }
