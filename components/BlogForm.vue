@@ -49,6 +49,10 @@
         <input id="tags" v-model="tags" type="text" placeholder="Tags">
       </div>
       <div class="mb-4">
+        <label for="teaser">Description</label>
+        <textarea id="description" v-model="blog.description" placeholder="Description" />
+      </div>
+      <div class="mb-4">
         <button
           :disabled="!!status"
           @click="submitForm"
@@ -56,6 +60,7 @@
         >
           {{ status ? status : 'Save' }}
         </button>
+        <a :href="`/blog/${blog.id}/preview`" class="ml-2" target="_blank">Preview</a>
       </div>
     </div>
   </div>
@@ -122,14 +127,15 @@ export default {
       try {
         const promise1 = db.collection('blogs').doc(id).set(blog)
 
-        const teaser = cloneDeep(blog)
-
-        teaser.body = blog.teaser || null
-        teaser.imageUrl = blog.teaserImageUrl || null
-
-        delete teaser.teaser
-        delete teaser.teaserImageUrl
-        delete teaser.imageCaption
+        const teaser = {
+          title: blog.title,
+          body: blog.teaser || '',
+          tags: blog.tags,
+          imageUrl: blog.teaserImageUrl || null,
+          imageAlt: blog.imageAlt,
+          created: blog.created,
+          changed: blog.changed
+        }
 
         const promise2 = db.collection('teasers').doc(id).set(teaser)
 
