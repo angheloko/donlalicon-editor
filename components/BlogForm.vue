@@ -132,7 +132,7 @@ export default {
           body: blog.teaser || '',
           tags: blog.tags,
           imageUrl: blog.teaserImageUrl || null,
-          imageAlt: blog.imageAlt,
+          imageAlt: blog.imageAlt || '',
           created: blog.created,
           changed: blog.changed
         }
@@ -142,6 +142,7 @@ export default {
         await Promise.all([promise1, promise2])
       } catch (error) {
         alert('Error saving blog or teaser')
+        console.error(error)
       }
 
       blog.id = id
