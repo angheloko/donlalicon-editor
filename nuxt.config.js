@@ -27,7 +27,7 @@ export default {
     '~/assets/css/editor.css'
   ],
   purgeCSS: {
-    whitelist: ['hljs'],
+    whitelist: ['hljs', 'ProseMirror'],
     whitelistPatterns: [/hljs-.+$/],
     whitelistPatternsChildren: [/hljs-.+$/]
   },

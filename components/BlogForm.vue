@@ -135,7 +135,7 @@ export default {
           imageAlt: blog.imageAlt || '',
           created: blog.created,
           changed: blog.changed,
-          published: blog.published
+          published: blog.published || false
         }
 
         const promise2 = db.collection('teasers').doc(id).set(teaser)
