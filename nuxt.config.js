@@ -24,6 +24,7 @@ export default {
   */
   css: [
     '~/assets/css/styles.css',
+    '~/assets/css/form.css',
     '~/assets/css/editor.css'
   ],
   purgeCSS: {

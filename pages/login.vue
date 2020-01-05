@@ -74,29 +74,4 @@ export default {
 </script>
 
 <style scoped>
-input[type="text"],
-input[type="password"] {
-  @apply shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight;
-}
-
-input[type="text"]:focus,
-input[type="password"]:focus {
-  @apply outline-none;
-}
-
-label {
-  @apply block text-gray-700 text-sm font-bold mb-2;
-}
-
-button {
-  @apply bg-blue-500 text-white font-bold py-2 px-4 rounded;
-}
-
-button:hover {
-  @apply bg-blue-700;
-}
-
-button:focus {
-  @apply outline-none shadow-outline;
-}
 </style>

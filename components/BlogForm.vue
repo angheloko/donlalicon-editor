@@ -52,15 +52,26 @@
         <label for="teaser">Description</label>
         <textarea id="description" v-model="blog.description" placeholder="Description" />
       </div>
-      <div class="mb-4">
-        <button
-          :disabled="!!status"
-          @click="submitForm"
-          type="button"
-        >
-          {{ status ? status : 'Save' }}
-        </button>
-        <a :href="`/blog/${blog.id}/preview`" class="ml-2" target="_blank">Preview</a>
+      <div class="mb-4 clearfix">
+        <div class="float-left">
+          <button
+            :disabled="!!status"
+            @click="submitForm"
+            type="button"
+          >
+            {{ status ? status : 'Save' }}
+          </button>
+          <a :href="`/blog/${blog.id}/preview`" class="ml-2" target="_blank">Preview</a>
+        </div>
+        <div class="float-right">
+          <button
+            @click="confirmDelete"
+            type="button"
+            class="bg-red-500 border-red-300 text-white"
+          >
+            Delete
+          </button>
+        </div>
       </div>
     </div>
   </div>
@@ -150,27 +161,30 @@ export default {
       this.$emit('input', cloneDeep(blog))
 
       this.status = ''
+    },
+    confirmDelete () {
+      const result = window.confirm('Are you sure you want to delete this blog?')
+      if (result) {
+        if (this.blog.id) {
+          const db = this.$firebase.firestore()
+
+          const promise1 = db.collection('blogs').doc(this.blog.id).delete()
+          const promise2 = db.collection('teasers').doc(this.blog.id).delete()
+
+          Promise.all([promise1, promise2])
+            .then(() => {
+              alert('Blog deleted!')
+            })
+            .catch((error) => {
+              alert('Unable to delete blog!')
+              console.error(error)
+            })
+        }
+      }
     }
   }
 }
 </script>
 
 <style scoped>
-label {
-  @apply block text-gray-600 text-sm font-bold mb-2;
-}
-
-textarea,
-input[type="text"] {
-  @apply shadow appearance-none border rounded w-full py-2 px-3 leading-tight;
-}
-
-textarea:focus,
-input[type="text"]:focus {
-  @apply outline-none border-blue-500;
-}
-
-button {
-  @apply text-gray-600 font-bold py-2 px-4 rounded border-gray-500 border shadow;
-}
 </style>

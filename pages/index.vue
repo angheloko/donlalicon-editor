@@ -1,5 +1,8 @@
 <template>
   <div>
+    <nuxt-link to="/new" class="block mb-5 no-underline font-bold uppercase text-sm float-right">
+      Create new article
+    </nuxt-link>
     <table class="w-full">
       <thead>
         <tr>

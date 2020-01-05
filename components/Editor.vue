@@ -335,12 +335,4 @@ export default {
 .menubar__group .menubar__button:last-child {
   @apply rounded-r mr-2;
 }
-
-textarea {
-  @apply shadow appearance-none border rounded w-full py-2 px-3 leading-tight;
-}
-
-textarea:focus {
-  @apply outline-none border-blue-500;
-}
 </style>
