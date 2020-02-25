@@ -1,8 +1,4 @@
-# donlalicon.dev blog editor
-
-My blog editor
-
-This editor has been combined into the [blog itself](https://github.com/angheloko/donlalicon-editor) and is no longer maintained.
+# This editor has been combined into the [blog itself](https://github.com/angheloko/donlalicon-editor) and is no longer maintained.
 
 ## Build Setup
 
